@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>d'Pipe</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/data.js"></script>
+  <script src="/js/wasm_exec.js"></script>
+  <script>
+    window.identity = (x) => x;
+    window.transforms = [
+      { name: "negative", path: "/wasm/main.wasm", },
+    ];
+    window.registerTransformFn = (name, fn) => {
+      const tidx = window.transforms.findIndex((transform) => transform.name === name);
+      if (tidx === -1) {
+        throw new Error(`No transform named ${name}`);
+      }
+      window.transforms[tidx].fn = fn;
+      console.log("registered", name);
+    } 
+  </script>
+</head>
+
+<body>
+  <main>
+    <div class="column">
+      <h2>Source Data</h2>
+      <pre id="srcdata"></pre>
+    </div>
+
+    <div class="column">
+      <form id="addtransform">
+        <label>Function Name: <input type="text" name="name"></label><br>
+        <label>WASM File: <input type="file"></label><br>
+        <input type="submit" value="Add Transform"></input>
+      </form>
+      <h2>Transforms</h2>
+      <div id="transformslist"></div>
+    </div>
+    <div class="column">
+      <h2>Output</h2>
+      <pre id="output"></pre>
+    </div>
+  </main>
+
+  <script>
+    srcdata.innerHTML = JSON.stringify(window.data, null, 2);
+
+    function loadTransforms() {
+      return Promise.all(window.transforms.map(async (transform) => {
+        if (!transform.path) {
+          return Promise.reject(new Error("Transform missing path"));
+        }
+
+        const go = new Go();
+        const { instance } = await WebAssembly.instantiateStreaming(fetch(transform.path), go.importObject);
+        go.run(instance);
+      }))
+    }
+
+    function runTransforms() {
+      let ret = new Promise((resolve) => resolve(window.data));
+      window.transforms.forEach((transform) => {
+        ret = ret.then((result) => {
+          console.log("running transform", transform.name);
+          return transform.fn(result);
+        });
+      });
+
+      return ret;
+    }
+
+    function populateTransformsList() {
+      while (transformslist.firstChild) {
+        transformslist.removeChild(transformslist.firstChild);
+      }
+
+      window.transforms.forEach((transform) => {
+        const elem = document.createElement("div");
+        elem.classList.add("transform");
+        elem.innerText = transform.name;
+        transformslist.appendChild(elem);
+      });
+    }
+
+    function main() {
+      populateTransformsList();
+
+      addtransform.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // TODO: get the file blob and name and add them to transform list
+      })
+
+      loadTransforms().then(runTransforms).then((results) => {
+        output.innerHTML = JSON.stringify(results, null, 2);
+      });
+    }
+
+    main();
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+main {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.column {
+  flex: 1;
+}
+
+#transformslist {
+  display: flex;
+  flex-direction: column;
+}
+
+.transform {
+  border: 1px solid gray;
+}
