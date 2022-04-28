@@ -9,6 +9,7 @@ module.exports = {
     ],
   ],
   plugins: [
+    "@babel/plugin-transform-runtime",
     ["module-resolver", {"root": ["./src"]}],
   ],
 }
