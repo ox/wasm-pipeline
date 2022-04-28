@@ -7,5 +7,8 @@ module.exports = {
         development: process.env.BABEL_ENV === "development",
       },
     ],
-  ]
+  ],
+  plugins: [
+    ["module-resolver", {"root": ["./src"]}],
+  ],
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import DataContainer from "../DataContainer/DataContainer";
+import DataContainer from "components/DataContainer/DataContainer";
 
 import data from "./data";
 
