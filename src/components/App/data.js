@@ -1,4 +1,4 @@
-window.data = [
+const data = [
   { idx: 0, key: '98t1rb', value: 8 },
   { idx: 1, key: 'z2e67l', value: 21 },
   { idx: 2, key: '42ob67', value: 40 },
@@ -10,3 +10,5 @@ window.data = [
   { idx: 8, key: '4n2p4e', value: 27 },
   { idx: 9, key: '4d64mx', value: 43 }
 ];
+
+export default data;

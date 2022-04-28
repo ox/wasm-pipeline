@@ -41,11 +41,8 @@ module.exports = {
               modules: true,
             },
           },
+          'postcss-loader',
         ],
-      },
-      {
-        test: /\.wasm$/,
-        type: 'asset/resource',
       },
     ]
   },
