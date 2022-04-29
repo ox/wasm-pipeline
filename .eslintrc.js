@@ -14,7 +14,7 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react'],
-  ignorePatterns: ['node_modules', 'dist', 'public'],
+  ignorePatterns: ['node_modules', 'dist', 'public', "app"],
   rules: {
     // Adding React as an import is optional in React 17+
     'react/react-in-jsx-scope': 'off'

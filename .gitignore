@@ -1,3 +1,6 @@
 .DS_Store
 node_modules
 dist
+public/wasm/addthousand.wasm
+public/wasm/main.wasm
+public/wasm/negative.wasm

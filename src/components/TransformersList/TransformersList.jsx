@@ -1,18 +1,45 @@
-import React from "react";
-import { DragDropContext } from 'react-beautiful-dnd';
+import React from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import useTransformers from "store/transformers";
+import useTransformers from 'store/transformers';
 
 const TransformersList = () => {
-  const functions = useTransformers((state) => state.functions);
+  const { functions, setFunctions } = useTransformers();
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(functions);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setFunctions(items);
+  };
 
   return (
-    <DragDropContext>
-    <ol>
-      {functions.map((transformer) => <li key={transformer.name}>{transformer.name}</li>)}
-    </ol>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="transformers">
+        {(provided) => (
+          <ol {...provided.droppableProps} ref={provided.innerRef}>
+            {functions.map((transformer, idx) => (
+              <Draggable key={transformer.name} draggableId={transformer.name} index={idx}>
+                {(provided) => (
+                  <li
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                    className="border p-2"
+                  >
+                    {transformer.name}
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ol>
+        )}
+      </Droppable>
     </DragDropContext>
-  )
+  );
 };
 
 export default TransformersList;
