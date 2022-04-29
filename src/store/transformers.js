@@ -12,12 +12,6 @@ const useTransformers = create((set, get) => ({
       go.run(instance);
     }),
   registerFunction: (name, fn) => {
-    console.log('PRE registering', name);
-
-    if (get().functions.length > 2) {
-      debugger;
-    }
-
     if (!_.find(get().functions, ['name', name])) {
       set((state) => ({ functions: [...state.functions, { name, fn }] }));
     } else {

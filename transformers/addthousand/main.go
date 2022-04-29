@@ -6,13 +6,11 @@ import (
 )
 
 func addthousand(this js.Value, args []js.Value) interface{} {
-	fmt.Printf("processData %x\n", args)
 	if len(args) != 1 {
 		return "Invalid no of arguments passed"
 	}
 
 	dataLength := args[0].Get("length").Int()
-	fmt.Println("data length", dataLength)
 	output := make([]interface{}, 0)
 
 	for i := 0; i < dataLength; i++ {
@@ -28,7 +26,7 @@ func addthousand(this js.Value, args []js.Value) interface{} {
 }
 
 func main() {
-	fmt.Println("addthousand loaded")
+	fmt.Println("addthousand main called")
 	js.Global().Call("registerTransformFn", "addthousand", js.FuncOf(addthousand))
 	select {}
 }
