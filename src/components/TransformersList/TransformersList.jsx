@@ -1,13 +1,17 @@
 import React from "react";
+import { DragDropContext } from 'react-beautiful-dnd';
+
 import useTransformers from "store/transformers";
 
 const TransformersList = () => {
-  const transformers = useTransformers((state) => state.order);
+  const functions = useTransformers((state) => state.functions);
 
   return (
+    <DragDropContext>
     <ol>
-      {transformers.forEach((transformer) => <li>{transformer}</li>)}
+      {functions.map((transformer) => <li key={transformer.name}>{transformer.name}</li>)}
     </ol>
+    </DragDropContext>
   )
 };
 

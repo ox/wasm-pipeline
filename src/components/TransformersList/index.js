@@ -1,2 +1,2 @@
-import TransformersList from "./TransformersList";
+import TransformersList from './TransformersList';
 export default TransformersList;

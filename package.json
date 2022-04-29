@@ -6,7 +6,10 @@
   "scripts": {
     "start": "webpack serve --config ./webpack.dev.js --mode development",
     "build": "webpack --config ./webpack.prod.js --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore --fix .",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "repository": {
     "type": "git",
@@ -30,10 +33,15 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss-cli": "^9.1.0",
     "postcss-loader": "^6.2.1",
+    "prettier": "^2.6.2",
     "react-hot-loader": "^4.13.0",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.24",
@@ -42,7 +50,9 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "^18.1.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.1.0",
     "zustand": "^4.0.0-rc.0"
   }

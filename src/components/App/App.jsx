@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useMemo} from "react";
 import DataContainer from "components/DataContainer";
 import AddTransform from "components/AddTransform";
 import TransformersList from "components/TransformersList"
 import useDataStore from "store/data";
 import useTransformers from "store/transformers";
+import useProcessData from "hooks/useProcessData";
 
 import data from "./data";
 
 import "./reset.css";
 import "./App.css";
-import useTransformersResult from "../../hooks/useTransformersResult";
 
 const App = () => {
   const ds = useDataStore();
@@ -17,28 +17,20 @@ const App = () => {
     ds.set(data);
   }, []);
 
-  const transforms = useTransformers((state) => ({
-    registerFunction: state.registerFunction,
-    loadWASMFromPath: state.loadWASMFromPath,
-    setOrder: state.setOrder,
-    order: state.order,
-  }));
-
+  const transforms = useTransformers();
   useEffect(() => {
     window.registerTransformFn = (name, fn) => {
       transforms.registerFunction(name, fn);
       console.log("registered", name);
     };
 
+    transforms.loadWASMFromPath("/wasm/main.wasm");
+  
     return () => window.registerTransformFn = undefined;
   }, []);
 
-  useEffect(() => {
-    transforms.loadWASMFromPath("/wasm/main.wasm");
-    transforms.setOrder(["negative"]);
-  }, []);
-
-  const result = useTransformersResult(ds.data);
+  const fns = useMemo(() => transforms.functions.map(({fn}) => fn), [transforms.functions]);
+  const result = useProcessData(ds.data, fns);
 
   return <div className="flex">
     <div className="flex-1">

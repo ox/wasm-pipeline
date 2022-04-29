@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,26 +11,24 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    clean: true,
+    clean: true
   },
   plugins: [
     new CopyPlugin({
-      patterns: [
-        'public',
-      ],
+      patterns: ['public']
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/index.html'),
+      template: path.resolve(__dirname, './src/index.html')
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin()
   ],
   devtool: 'source-map',
-  module:{
+  module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: ['babel-loader']
       },
       {
         test: /\.css$/i,
@@ -38,15 +38,15 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-            },
+              modules: true
+            }
           },
-          'postcss-loader',
-        ],
-      },
+          'postcss-loader'
+        ]
+      }
     ]
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   }
-}
+};

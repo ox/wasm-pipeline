@@ -1,15 +1,14 @@
+/* eslint-env node */
+
 module.exports = {
   presets: [
-    "@babel/preset-env",
+    '@babel/preset-env',
     [
-      "@babel/preset-react",
+      '@babel/preset-react',
       {
-        development: process.env.BABEL_ENV === "development",
-      },
-    ],
+        development: process.env.BABEL_ENV === 'development'
+      }
+    ]
   ],
-  plugins: [
-    "@babel/plugin-transform-runtime",
-    ["module-resolver", {"root": ["./src"]}],
-  ],
-}
+  plugins: ['@babel/plugin-transform-runtime', ['module-resolver', { root: ['./src'] }]]
+};
